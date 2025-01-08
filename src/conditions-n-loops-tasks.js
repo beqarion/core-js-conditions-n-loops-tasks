@@ -337,32 +337,27 @@ function getBalanceIndex(arr) {
  */
 function getSpiralMatrix(size) {
   const matrix = [];
-  let count = 1;
-  for (i = 0; i < size; i += 1) {
+  for (let i = 0; i < size; i += 1) {
     matrix[i] = [];
-    for (j = 0; j < size; j += 1) {
+    for (let j = 0; j < size; j += 1) {
       matrix[i][j] = null;
     }
   }
-  // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-  for (i = 1; i <= size; i += 1) {
-    for (j = 1; j <= size; j += 1) {}
-  }
-  // right matrix[i-same][j+1]
-  // down matrix[i+i][j-same]
-  // left matrix[2][j-1]
-  // up matrix[i-static][j-1]
 
-  // write count current coordinates, and check if right is empty
-  function goRight() {
+  let count = 1;
+  let dirSequence = ['right', 'down', 'left', 'up'];
+
+  let i = 0;
+  let j = 0;
+
+  if (matrix[i][j] === null) {
     matrix[i][j] = count;
     count += 1;
+  }
 
-    if (!matrix[i][j + 1]) {
-      j += 1;
-      return true;
-    }
-    return false;
+  function fullCurrentCell(dir) {
+    matrix[i][j] = count;
+    count += 1;
   }
 }
 
