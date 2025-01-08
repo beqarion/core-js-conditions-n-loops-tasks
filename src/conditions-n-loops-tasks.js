@@ -146,8 +146,63 @@ function convertToRomanNumerals(num) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  let result = '';
+  const len = numberStr.length;
+
+  for (let i = 0; i < len; i += 1) {
+    const currChar = numberStr[i];
+    let word = '';
+
+    switch (currChar) {
+      case '0':
+        word = 'zero';
+        break;
+      case '1':
+        word = 'one';
+        break;
+      case '2':
+        word = 'two';
+        break;
+      case '3':
+        word = 'three';
+        break;
+      case '4':
+        word = 'four';
+        break;
+      case '5':
+        word = 'five';
+        break;
+      case '6':
+        word = 'six';
+        break;
+      case '7':
+        word = 'seven';
+        break;
+      case '8':
+        word = 'eight';
+        break;
+      case '9':
+        word = 'nine';
+        break;
+      case ',':
+      case '.':
+        word = 'point';
+        break;
+      case '-':
+        word = 'minus';
+        break;
+      case '+':
+        word = 'plus';
+        break;
+      default:
+        throw new Error(`Unexpected character: ${currChar}`);
+    }
+
+    result += (result ? ' ' : '') + word;
+  }
+
+  return result;
 }
 
 /**
@@ -162,8 +217,12 @@ function convertNumberToString(/* numberStr */) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  let reversed = '';
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    reversed += str[i];
+  }
+  return reversed === str;
 }
 
 /**
@@ -180,8 +239,15 @@ function isPalindrome(/* str */) {
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  let index = -1;
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === letter) {
+      index = i;
+      break;
+    }
+  }
+  return index;
 }
 
 /**
@@ -199,8 +265,19 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  let number = num;
+  if (number < 0) {
+    number = -number;
+  }
+  while (number > 0) {
+    const currentNum = number % 10;
+    if (currentNum === digit) {
+      return true;
+    }
+    number = Math.floor(number / 10);
+  }
+  return false;
 }
 
 /**
@@ -216,8 +293,25 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  for (let i = 0; i < arr.length; i += 1) {
+    let leftSum = 0;
+    let rightSum = 0;
+
+    for (let j = 0; j < i; j += 1) {
+      leftSum += arr[j];
+    }
+
+    for (let j = i + 1; j < arr.length; j += 1) {
+      rightSum += arr[j];
+    }
+
+    if (leftSum === rightSum) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 /**
@@ -241,8 +335,35 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = [];
+  let count = 1;
+  for (i = 0; i < size; i += 1) {
+    matrix[i] = [];
+    for (j = 0; j < size; j += 1) {
+      matrix[i][j] = null;
+    }
+  }
+  // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+  for (i = 1; i <= size; i += 1) {
+    for (j = 1; j <= size; j += 1) {}
+  }
+  // right matrix[i-same][j+1]
+  // down matrix[i+i][j-same]
+  // left matrix[2][j-1]
+  // up matrix[i-static][j-1]
+
+  // write count current coordinates, and check if right is empty
+  function goRight() {
+    matrix[i][j] = count;
+    count += 1;
+
+    if (!matrix[i][j + 1]) {
+      j += 1;
+      return true;
+    }
+    return false;
+  }
 }
 
 /**
