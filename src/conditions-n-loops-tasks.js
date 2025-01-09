@@ -344,21 +344,75 @@ function getSpiralMatrix(size) {
     }
   }
 
-  let count = 1;
-  let dirSequence = ['right', 'down', 'left', 'up'];
-
   let i = 0;
   let j = 0;
+  let count = 1;
+  let lives = 4;
+  const dirSequence = ['right', 'down', 'left', 'up'];
 
-  if (matrix[i][j] === null) {
+  function nextCellOfThisDirection(dir) {
+    switch (dir) {
+      case 'right':
+        if (matrix[i][j + 1] === null) {
+          j += 1;
+          lives += 1;
+          return true;
+        }
+        lives -= 1;
+        return false;
+      case 'down':
+        if (i + 1 < 0 || i + 1 >= size || j < 0 || j >= size) return false;
+        if (matrix[i + 1][j] === null) {
+          i += 1;
+          lives += 1;
+          return true;
+        }
+        lives -= 1;
+        return false;
+      case 'left':
+        if (i < 0 || i >= size || j - 1 < 0 || j - 1 >= size) return false;
+        if (matrix[i][j - 1] === null) {
+          j -= 1;
+          lives += 1;
+          return true;
+        }
+        lives -= 1;
+        return false;
+      case 'up':
+        if (i - 1 < 0 || i - 1 >= size || j < 0 || j >= size) return false;
+        if (matrix[i - 1][j] === null) {
+          i -= 1;
+          lives += 1;
+          return true;
+        }
+        lives -= 1;
+        return false;
+
+      default:
+        throw new Error('Direction Keyword doesnt match');
+    }
+  }
+
+  function writeCountCurrentCell() {
     matrix[i][j] = count;
     count += 1;
   }
 
-  function fullCurrentCell(dir) {
-    matrix[i][j] = count;
-    count += 1;
+  while (lives > 0) {
+    for (let seqNum = 0; seqNum < dirSequence.length; seqNum += 1) {
+      const direction = dirSequence[seqNum];
+
+      if (matrix[i][j] === null) {
+        matrix[i][j] = count;
+        count += 1;
+      }
+      while (nextCellOfThisDirection(direction)) {
+        writeCountCurrentCell();
+      }
+    }
   }
+
+  return matrix;
 }
 
 /**
@@ -394,8 +448,34 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const workingArr = [...arr];
+  if (arr.length <= 1) return arr;
+
+  let temp = null;
+  let progression = 0;
+
+  function switchTwoNumbersToAsc(index) {
+    const first = workingArr[index];
+    const second = workingArr[index + 1];
+
+    if (first > second) {
+      temp = second;
+      workingArr[index] = temp;
+      workingArr[index + 1] = first;
+      progression = 0;
+    } else {
+      progression += 1;
+    }
+  }
+
+  while (progression < workingArr.length - 1) {
+    for (let i = 0; i < workingArr.length - 2; i += 1) {
+      switchTwoNumbersToAsc(i);
+    }
+  }
+
+  return workingArr;
 }
 
 /**
