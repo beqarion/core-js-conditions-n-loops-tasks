@@ -449,33 +449,11 @@ function rotateMatrix(/* matrix */) {
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
 function sortByAsc(arr) {
-  const workingArr = [...arr];
-  if (arr.length <= 1) return arr;
-
-  let temp = null;
-  let progression = 0;
-
-  function switchTwoNumbersToAsc(index) {
-    const first = workingArr[index];
-    const second = workingArr[index + 1];
-
-    if (first > second) {
-      temp = second;
-      workingArr[index] = temp;
-      workingArr[index + 1] = first;
-      progression = 0;
-    } else {
-      progression += 1;
-    }
+  let result = arr;
+  for (let i = 1; i < result.length; i += 1) {
+    const currentNum = result[i];
+    for (let j = i - 1; j <= 0 && result[j] > currentNum; j -= 1) {}
   }
-
-  while (progression < workingArr.length - 1) {
-    for (let i = 0; i < workingArr.length - 2; i += 1) {
-      switchTwoNumbersToAsc(i);
-    }
-  }
-
-  return workingArr;
 }
 
 /**
