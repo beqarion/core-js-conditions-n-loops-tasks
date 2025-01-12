@@ -516,7 +516,6 @@ describe('core-js-conditions-n-loops', () => {
       }
       const result = utility.getShuffleStringUtil(str, iteration);
       assert.equal(tasks.shuffleChar(str, iteration), result);
-
       assert.equal(
         forbidden.isCommented(tasks.shuffleChar),
         false,
